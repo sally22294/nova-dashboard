@@ -53,7 +53,8 @@
   .global-search { width: 112px; justify-content: flex-start; padding: 0 7px; }
   .global-search input { display: block; font-size: 10px; }
   .global-search svg { width: 17px; height: 17px; }
-  .topbar-divider, .profile-button { display: none; }
+  .topbar-divider { display: none; }
+  .profile-button { width: 34px; height: 34px; justify-content: center; }
   .notification-button { width: 34px; height: 34px; flex-basis: 34px; border-color: transparent; background: transparent; }
   .notification-panel { right: -3px; width: min(280px, calc(100vw - 32px)); }
   .dashboard-content { padding: 26px 16px 36px; }

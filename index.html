@@ -94,10 +94,23 @@
               </div>
             </div>
             <div class="topbar-divider"></div>
-            <div class="profile-button" aria-label="Signed in as Alex Morgan">
-              <span class="profile-avatar">AM</span>
-              <span class="profile-copy"><strong>Alex Morgan</strong><small>Store owner</small></span>
-              <svg class="profile-chevron" aria-hidden="true" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg>
+            <div class="profile-wrap">
+              <button class="profile-button" id="profileToggle" type="button" aria-label="Toggle Alex Morgan profile menu" aria-expanded="false" aria-controls="profileMenu">
+                <span class="profile-avatar" aria-hidden="true">AM</span>
+                <span class="profile-copy"><strong>Alex Morgan</strong><small>Store owner</small></span>
+                <svg class="profile-chevron" aria-hidden="true" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg>
+              </button>
+              <div class="profile-menu" id="profileMenu" aria-label="Profile menu" hidden>
+                <div class="profile-menu-account">
+                  <strong>Alex Morgan</strong>
+                  <span>Store Owner</span>
+                  <span class="profile-demo-indicator">Demo Account</span>
+                </div>
+                <button class="profile-menu-item" id="profileSettings" type="button">
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.1.9-1.1 1.9-1.4-.5a7.8 7.8 0 0 1-1.5.9l-.2 1.5h-2.2l-.3-1.5a7.8 7.8 0 0 1-1.5-.9l-1.4.5-1.1-1.9 1.1-.9a6 6 0 0 1 0-1.8l-1.1-.9 1.1-1.9 1.4.5a7.8 7.8 0 0 1 1.5-.9l.3-1.5h2.2l.2 1.5a7.8 7.8 0 0 1 1.5.9l1.4-.5 1.1 1.9-1.1.9a6 6 0 0 1 0 1.8Z"/></svg>
+                  <span>Settings</span>
+                </button>
+              </div>
             </div>
           </div>
         </header>

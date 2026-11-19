@@ -170,15 +170,41 @@ navigateTo("Dashboard");
 
 const notificationToggle = document.querySelector("#notificationToggle");
 const notificationPanel = document.querySelector("#notificationPanel");
+const profileToggle = document.querySelector("#profileToggle");
+const profileMenu = document.querySelector("#profileMenu");
 notificationToggle.addEventListener("click", () => {
   const isExpanded = notificationToggle.getAttribute("aria-expanded") === "true";
   notificationToggle.setAttribute("aria-expanded", String(!isExpanded));
   notificationPanel.hidden = isExpanded;
 });
 
+function closeProfileMenu(returnFocus = false) {
+  profileToggle.setAttribute("aria-expanded", "false");
+  profileMenu.hidden = true;
+  if (returnFocus) profileToggle.focus();
+}
+
+profileToggle.addEventListener("click", () => {
+  const isExpanded = profileToggle.getAttribute("aria-expanded") === "true";
+  profileToggle.setAttribute("aria-expanded", String(!isExpanded));
+  profileMenu.hidden = isExpanded;
+});
+
+document.querySelector("#profileSettings").addEventListener("click", () => {
+  closeProfileMenu();
+  document.querySelector('#sidebar [data-page="Settings"]').click();
+});
+
 document.addEventListener("click", (event) => {
   if (!event.target.closest(".notification-wrap")) {
     notificationToggle.setAttribute("aria-expanded", "false");
     notificationPanel.hidden = true;
+  }
+  if (!event.target.closest(".profile-wrap")) closeProfileMenu();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && profileToggle.getAttribute("aria-expanded") === "true") {
+    closeProfileMenu(true);
   }
 });
