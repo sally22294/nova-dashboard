@@ -14,7 +14,7 @@
 
     <div class="app-shell">
       <aside class="sidebar" id="sidebar" aria-label="Main sidebar">
-        <a class="brand" href="#main-content" aria-label="Nova dashboard home">
+        <a class="brand" href="#dashboard" aria-label="Nova dashboard home">
           <span class="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 36 36" fill="none"><path d="M8 26V10l20 16V10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="28" cy="10" r="2" fill="#D98B70"/></svg>
           </span>
@@ -59,10 +59,13 @@
 
         <div class="sidebar-bottom">
           <div class="store-status"><span class="status-pulse"></span><span>Demo Store</span></div>
-          <div class="sidebar-footer">
-            <span class="store-avatar" aria-hidden="true">S</span>
-            <span class="store-details"><strong id="storeName">Studio Sol</strong><small>Free plan</small></span>
-            <svg class="footer-chevron" aria-hidden="true" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg>
+          <div class="plan-selector-wrap">
+            <button class="sidebar-footer plan-selector-button" id="planSelectorToggle" type="button" aria-label="Select demo plan" aria-expanded="false" aria-controls="planPopover">
+              <span class="store-avatar" aria-hidden="true">S</span>
+              <span class="store-details"><strong id="storeName">Studio Sol</strong><small id="currentPlanLabel">Starter · Free</small></span>
+              <svg class="footer-chevron" aria-hidden="true" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></svg>
+            </button>
+            <div class="plan-popover" id="planPopover" aria-label="Current demo plan" hidden></div>
           </div>
         </div>
       </aside>
@@ -122,5 +125,17 @@
     </div>
     <div class="sidebar-scrim" id="sidebarScrim" hidden></div>
     <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+    <dialog class="plan-dialog" id="planDialog" aria-labelledby="planDialogTitle">
+      <div class="plan-dialog-shell">
+        <header class="plan-dialog-header">
+          <div><span class="eyebrow">Demo plans</span><h2 id="planDialogTitle">Choose a plan to preview</h2><p>Fictional tiers for demonstration. Every dashboard feature stays available.</p></div>
+          <button class="icon-button product-dialog-close" id="closePlanDialog" type="button" aria-label="Close plan comparison">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg>
+          </button>
+        </header>
+        <div class="plan-cards" id="planCards"></div>
+        <p class="plan-dialog-note">Plan selection is visual only. No billing, checkout, or feature restrictions are connected.</p>
+      </div>
+    </dialog>
   </body>
 </html>

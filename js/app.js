@@ -3,6 +3,7 @@ import { initCustomers } from "./customers.js";
 import { initInventory } from "./inventory.js";
 import { initAnalytics } from "./analytics.js";
 import { initSettings } from "./settings.js";
+import { initPlanSelector } from "./plan-selector.js";
 import { createInventoryMovementRepository } from "./inventory-storage.js";
 import { initNavigation } from "./navigation.js";
 import { createCustomerRepository } from "./customer-storage.js";
@@ -165,8 +166,12 @@ initNavigation({
   onNotice: showNotice,
   onNavigate: navigateTo
 });
-globalSearch.hidden = true;
-navigateTo("Dashboard");
+initPlanSelector({
+  toggle: document.querySelector("#planSelectorToggle"),
+  popover: document.querySelector("#planPopover"),
+  dialog: document.querySelector("#planDialog"),
+  onNotice: showNotice
+});
 
 const notificationToggle = document.querySelector("#notificationToggle");
 const notificationPanel = document.querySelector("#notificationPanel");
