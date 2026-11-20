@@ -1,5 +1,5 @@
 const pageHashes = {
-  Dashboard: "#dashboard",
+  Dashboard: "",
   Products: "#products",
   Orders: "#orders",
   Inventory: "#inventory",
@@ -8,6 +8,12 @@ const pageHashes = {
   Settings: "#settings"
 };
 const hashPages = new Map(Object.entries(pageHashes).map(([page, hash]) => [hash, page]));
+
+function getPageUrl(page) {
+  const url = new URL(window.location.href);
+  url.hash = pageHashes[page];
+  return url.href;
+}
 
 export function initNavigation({ sidebar, menuToggle, scrim, onNotice, onNavigate }) {
   const navItems = [...sidebar.querySelectorAll("[data-page]")];
@@ -26,19 +32,31 @@ export function initNavigation({ sidebar, menuToggle, scrim, onNotice, onNavigat
     onNavigate(page);
   }
 
+  function navigateTo(page) {
+    const hash = pageHashes[page];
+    if (typeof hash !== "string") {
+      onNotice(`${page} is planned for a later phase. Your dashboard is still available.`);
+      closeMenu();
+      return;
+    }
+
+    if (page === "Dashboard") {
+      if (window.location.hash || window.location.href.endsWith("#")) {
+        window.history.pushState(null, "", getPageUrl(page));
+      }
+      activatePage(page);
+    } else if (window.location.hash === hash) {
+      activatePage(page);
+    } else {
+      window.location.hash = hash;
+    }
+    closeMenu();
+  }
+
   navItems.forEach((item) => {
     item.addEventListener("click", () => {
       const page = item.dataset.page;
-      const hash = pageHashes[page];
-      if (hash) {
-        if (window.location.hash === hash) activatePage(page);
-        else window.location.hash = hash;
-        closeMenu();
-        return;
-      }
-
-      onNotice(`${page} is planned for a later phase. Your dashboard is still available.`);
-      closeMenu();
+      navigateTo(page);
     });
   });
 
@@ -49,7 +67,7 @@ export function initNavigation({ sidebar, menuToggle, scrim, onNotice, onNavigat
     scrim.hidden = true;
   }
 
-  function handleHashChange() {
+  function handleLocationChange() {
     const page = hashPages.get(window.location.hash);
     if (page) {
       activatePage(page);
@@ -57,11 +75,7 @@ export function initNavigation({ sidebar, menuToggle, scrim, onNotice, onNavigat
     }
 
     const fallbackPage = activePage || "Dashboard";
-    window.history.replaceState(
-      null,
-      "",
-      `${window.location.pathname}${window.location.search}${pageHashes[fallbackPage]}`
-    );
+    window.history.replaceState(null, "", getPageUrl(fallbackPage));
   }
 
   menuToggle.addEventListener("click", () => {
@@ -73,7 +87,12 @@ export function initNavigation({ sidebar, menuToggle, scrim, onNotice, onNavigat
   });
 
   scrim.addEventListener("click", closeMenu);
-  window.addEventListener("hashchange", handleHashChange);
+  window.addEventListener("hashchange", handleLocationChange);
+  window.addEventListener("popstate", handleLocationChange);
+  document.querySelector(".brand").addEventListener("click", (event) => {
+    event.preventDefault();
+    navigateTo("Dashboard");
+  });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeMenu();
   });
@@ -86,12 +105,8 @@ export function initNavigation({ sidebar, menuToggle, scrim, onNotice, onNavigat
   });
 
   const initialPage = hashPages.get(window.location.hash) || "Dashboard";
-  if (!hashPages.has(window.location.hash)) {
-    window.history.replaceState(
-      null,
-      "",
-      `${window.location.pathname}${window.location.search}${pageHashes[initialPage]}`
-    );
+  if (!hashPages.has(window.location.hash) || window.location.href.endsWith("#")) {
+    window.history.replaceState(null, "", getPageUrl(initialPage));
   }
   activatePage(initialPage);
 }
